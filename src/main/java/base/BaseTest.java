@@ -6,6 +6,7 @@ import config.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -31,7 +32,13 @@ public class BaseTest {
         test = extent.createTest(method.getName());
 
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        // ✅ REQUIRED FOR CI (GitHub Actions)
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(ConfigReader.getProperty("url"));
     }

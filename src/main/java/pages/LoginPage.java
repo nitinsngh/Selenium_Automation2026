@@ -26,6 +26,7 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
+    //clicks on login button
     public void login(String user, String pass) {
         signupLoginBtn.click();
         email.sendKeys(user);
